@@ -1,0 +1,4 @@
+.env
+miniconda3/
+__pycache__/
+*.pyc
