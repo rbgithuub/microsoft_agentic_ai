@@ -11,6 +11,8 @@ OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
 PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
 RECIPIENT = os.getenv("WHATSAPP_RECIPIENT_NUMBER")
+WHATSAPP_API_VERSION = "v18.0"
+WHATSAPP_MAX_LEN = 3500
 
 # Step 1: Generate AI DevOps Byte using AutoGen
 def generate_ai_byte():
@@ -94,52 +96,48 @@ Rotate industry and legacy stack randomly.
     return clean_message
 
 # Step 2: Send to WhatsApp
-# Step 2: Send to WhatsApp
-def send_whatsapp(message_text):
-
-    url = f"https://graph.facebook.com/v18.0/{PHONE_NUMBER_ID}/messages"
-
+def _get_whatsapp_request_parts(message_text):
+    url = f"https://graph.facebook.com/{WHATSAPP_API_VERSION}/{PHONE_NUMBER_ID}/messages"
     headers = {
         "Authorization": f"Bearer {ACCESS_TOKEN}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     }
-
     data = {
         "messaging_product": "whatsapp",
         "to": RECIPIENT,
         "type": "text",
-        "text": {
-            "body": message_text
-        }
+        "text": {"body": message_text},
     }
+    return url, headers, data
 
-    response = requests.post(url, headers=headers, json=data)
 
+def _post_whatsapp_message(message_text):
+    url, headers, data = _get_whatsapp_request_parts(message_text)
+    response = requests.post(url, headers=headers, json=data, timeout=30)
     print("Recipient number:", RECIPIENT)
     print("Status:", response.status_code)
     print("Response:", response.text)
-
     if response.status_code != 200:
         print("❌ WhatsApp API Error Detected")
         print("Error Details:", response.text)
+    return response
+
+
+def send_whatsapp(message_text):
+    _post_whatsapp_message(message_text)
 
 
 def send_whatsapp_long(message_text):
-    MAX_LEN = 3500
-
-    while len(message_text) > MAX_LEN:
-        split_index = message_text.rfind("\n", 0, MAX_LEN)
+    while len(message_text) > WHATSAPP_MAX_LEN:
+        split_index = message_text.rfind("\n", 0, WHATSAPP_MAX_LEN)
         if split_index == -1:
-            split_index = MAX_LEN
+            split_index = WHATSAPP_MAX_LEN
 
         part = message_text[:split_index]
         send_whatsapp(part)
         message_text = message_text[split_index:].strip()
 
-    # ✅ Send final remaining part
     send_whatsapp(message_text)
-
- #   send_whatsapp_long(message)
 
 # Main execution
 if __name__ == "__main__":
@@ -153,6 +151,4 @@ if __name__ == "__main__":
     print(message)
     print("----------------------------")
     print("Message length:", len(message))
-#    send_whatsapp(message)
     send_whatsapp_long(message)
-#    send_whatsapp("🚀 This is a manual test from AI pipeline")
