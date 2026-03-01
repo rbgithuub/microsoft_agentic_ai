@@ -25,66 +25,74 @@ def generate_ai_byte():
         }
     )
 
-    prompt = """
-Generate a structured enterprise content block with TWO sections.
+    prompt = f"""
+You are a DevOps + AI Tech Intelligence Agent.
 
-SECTION 1:
-🚀 AI Agent + DevOps Enterprise Case
+Each run, randomly select 2–4 topics from:
 
-Industry:
-(Choose one: BFSI, Retail, Healthcare, Telecom, Manufacturing)
+• AI + DevOps industry updates
+• AI Ethics and Governance
+• Agentic AI
+• AIOps
+• Cloud ecosystem
+• Linux OS versions (RHEL, Ubuntu, Debian)
+• Kubernetes
+• Docker
+• Databases (MongoDB, PostgreSQL, Percona)
+• Celery
+• Angular / React
+• Security vulnerabilities & remediation
+• OS hardening
+• behave / pytest / UI testing
+• Programming languages (Go, Rust, Python)
+• Important Python library updates
 
-Customer:
-(Realistic enterprise name)
+Use realistic current-year technical facts.
 
-Problem Statement:
-(3 lines. Technical + operational challenge.)
+Structure:
 
-AI Agent Architecture:
-(Explain multi-agent orchestration – planner, analyzer, remediation agent, monitoring agent.)
+🚀 Hourly Tech Intelligence Brief
 
-Cloud & DevOps Implementation:
-(Mention AWS/Azure/GCP, Kubernetes, CI/CD, observability stack.)
+Selected Domains:
+(List chosen domains)
 
-Technologies Used:
-(List AI libraries, DevOps tools, cloud services.)
+Key Updates:
+(Concise real-world technical explanation + practical use case.)
 
-Business Impact:
-(Include measurable metrics like % cost reduction, % faster deployment.)
+Security Insight (if applicable):
+(Mention vulnerability type + remediation summary.)
 
-Fun Fact:
-(Interesting insight about AI in DevOps.)
-
-Python AI Snippet:
-(Provide short 5–8 line Python example using openai, autogen, transformers, or langchain.)
+Engineering Impact:
+(Why this matters for DevOps/SRE/platform teams.)
 
 --------------------------------------------------
 
-SECTION 2:
-🔄 Legacy Modernization Fact
+🔧 Sample Commands (add short inline comments)
 
-Legacy Stack:
-(Randomly choose: LAMP, PHP monolith, AWK-based log parser, KornShell automation script)
+Example style:
+sudo dnf update -y  # Update all RHEL packages
+kubectl rollout restart deployment api  # Restart deployment safely
+pytest tests/  # Run automated unit tests
 
-Legacy Problem:
-(Short description of technical limitation.)
+Provide 3–6 relevant commands with short comments.
 
-Modernization Approach:
-(Explain how it was migrated to microservices, containers, or cloud-native stack.)
+--------------------------------------------------
 
-Before Snippet (Legacy):
-(Provide 3–5 lines workable PHP, AWK, or ksh example.)
+💻 Code Snippet (add short inline comments)
 
-After Snippet (Modernized):
-(Provide 3–5 lines Python or containerized equivalent.)
+Provide 5–8 lines relevant snippet.
+Each important line must include a short inline comment explaining purpose.
 
-Keep total output under 1800 characters.
-Ensure complete sentences.
-Do not cut words mid-line.
+Example style:
+from celery import Celery  # Import Celery task queue
+app = Celery('tasks', broker='redis://localhost')  # Configure broker
+
+Keep total output under 1700 characters.
 Plain text only.
 No markdown.
 No TERMINATE word.
-Rotate industry and legacy stack randomly.
+Rotate domains every run.
+Keep comments short and practical.
 """
 
     response = agent.generate_reply(
