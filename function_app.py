@@ -165,8 +165,7 @@ def send_whatsapp_long(message_text):
     send_whatsapp_long(message)
 
 
-@app.timer_trigger(schedule="0 */10 * * * *", arg_name="myTimer", run_on_startup=False,
-              use_monitor=False) 
+@app.timer_trigger(schedule="0 */10 * * * *", arg_name="myTimer")
 def hourly_intel_bot(myTimer: func.TimerRequest) -> None:
 
     message = generate_ai_byte()
