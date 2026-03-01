@@ -30,7 +30,6 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Create and start virtual environment
-        working-directory: tech-intel-bot
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -82,5 +81,5 @@ jobs:
         with:
           app-name: 'holy999d-azure-func'
           slot-name: 'Production'
-          package: tech-intel-bot
+          package:  '.'
           
