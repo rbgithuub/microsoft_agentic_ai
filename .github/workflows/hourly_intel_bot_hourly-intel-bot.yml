@@ -75,7 +75,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: |
-          unzip release.zip
+          unzip -o -q release.zip
           rm release.zip
         
       - name: 'Deploy to Azure Functions'
