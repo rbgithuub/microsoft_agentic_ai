@@ -8,12 +8,12 @@ from autogen import AssistantAgent
 
 
    # Read env values
-    OPENAI_KEY = os.getenv("OPENAI_API_KEY")
-    ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
-    PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
-    RECIPIENT = os.getenv("WHATSAPP_RECIPIENT_NUMBER")
-    WHATSAPP_API_VERSION = "v18.0"
-    WHATSAPP_MAX_LEN = 3500
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
+ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
+PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
+RECIPIENT = os.getenv("WHATSAPP_RECIPIENT_NUMBER")
+WHATSAPP_API_VERSION = "v18.0"
+WHATSAPP_MAX_LEN = 3500
 
 app = func.FunctionApp()
 
