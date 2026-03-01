@@ -165,19 +165,14 @@ def send_whatsapp_long(message_text):
     send_whatsapp_long(message)
 
 
-@app.timer_trigger(schedule="0 */10 * * * *", arg_name="myTimer", run_on_startup=True,
-              use_monitor=True) 
+@app.timer_trigger(schedule="0 */10 * * * *", arg_name="myTimer", run_on_startup=False,
+              use_monitor=False) 
 def hourly_intel_bot(myTimer: func.TimerRequest) -> None:
-        
+
+    message = generate_ai_byte()
+    send_whatsapp_long(message)
+    
     if myTimer.past_due:
         logging.info('The timer is past due!')
 
     logging.info('Python timer trigger function executed.')
-
-    try:
-        message = generate_ai_byte()
-        logging.info("Message generated")
-        send_whatsapp_long(message)
-        logging.info("WhatsApp send function executed")
-    except Exception as e:
-        logging.error(f"Error occurred: {str(e)}")
