@@ -76,6 +76,7 @@ jobs:
       - name: Unzip artifact for deployment
         run: |
           unzip -o -q release.zip
+          pwd
           ls -lart 
           rm release.zip
         
