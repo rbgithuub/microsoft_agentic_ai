@@ -4,6 +4,7 @@ import datetime
 import json
 import logging
 import requests
+from collections import deque
 from autogen import AssistantAgent
 from zoneinfo import ZoneInfo
 
@@ -53,12 +54,21 @@ configure_logging()
 
 # Step 1: Generate AI DevOps Byte using AutoGen
 def generate_ai_byte():
+    previous_context = "\n\n".join(conversation_memory)
+    enhanced_prompt = f"""
+Previous responses:
+{previous_context}
+
+Generate a completely new technical briefing.
+Avoid repeating previous themes or explanations.
+Ensure uniqueness in domains, commands, and code snippets.
+"""
 
     agent = AssistantAgent(
         name="EnterpriseAIAgent",
         llm_config={
             "model": "gpt-4o-mini",
-            "api_key": OPENAI_KEY
+            "api_key": OPENAI_KEY,
             "temperature": 0.9 #increase randomness
         }
     )
@@ -86,6 +96,13 @@ Each run, randomly select 2–4 topics from:
 • Important Python library updates
 
 Use realistic current-year technical facts.
+
+Every run must:
+- Select different domains than previous run
+- Use different commands than previous run
+- Use different programming language than previous run
+- Change writing style (sometimes concise, sometimes analytical)
+- Vary tone slightly
 
 Structure:
 
@@ -135,12 +152,14 @@ Ensure content is substantially different from previous runs.
 Avoid repeating similar explanations.
 Keep comments short and practical.
 """
+    full_prompt = prompt + enhanced_prompt
 
     response = agent.generate_reply(
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": full_prompt}]
     )
 
     clean_message = str(response).replace("TERMINATE", "").strip()
+    conversation_memory.append(clean_message)
 
     return clean_message
 
