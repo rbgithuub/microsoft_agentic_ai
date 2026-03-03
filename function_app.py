@@ -15,6 +15,7 @@ PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
 RECIPIENT = os.getenv("WHATSAPP_RECIPIENT_NUMBER")
 WHATSAPP_API_VERSION = "v18.0"
 WHATSAPP_MAX_LEN = 3500
+conversation_memory = deque(maxlen=5)
 
 app = func.FunctionApp()
 
@@ -58,6 +59,7 @@ def generate_ai_byte():
         llm_config={
             "model": "gpt-4o-mini",
             "api_key": OPENAI_KEY
+            "temperature": 0.9 #increase randomness
         }
     )
 
@@ -127,7 +129,10 @@ Keep total output under 1700 characters.
 Plain text only.
 No markdown.
 No TERMINATE word.
-Rotate domains every run.
+Rotate domains every run. Do NOT repeat topics used in the previous 10 runs.
+If a domain was used recently, pick different domains.
+Ensure content is substantially different from previous runs.
+Avoid repeating similar explanations.
 Keep comments short and practical.
 """
 
