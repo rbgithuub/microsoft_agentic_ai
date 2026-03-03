@@ -7,7 +7,7 @@ import requests
 from autogen import AssistantAgent
 
 
-   # Read env values
+# Read env values
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
 PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
