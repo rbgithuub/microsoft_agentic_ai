@@ -5,6 +5,7 @@ import json
 import logging
 import requests
 from autogen import AssistantAgent
+from zoneinfo import ZoneInfo
 
 
 # Read env values
@@ -16,6 +17,37 @@ WHATSAPP_API_VERSION = "v18.0"
 WHATSAPP_MAX_LEN = 3500
 
 app = func.FunctionApp()
+
+IST_TZ = ZoneInfo("Asia/Kolkata")
+
+
+class ISTFormatter(logging.Formatter):
+    def formatTime(self, record, datefmt=None):
+        dt = datetime.datetime.fromtimestamp(record.created, IST_TZ)
+        if datefmt:
+            return dt.strftime(datefmt)
+        return dt.isoformat(timespec="seconds")
+
+
+def configure_logging():
+    formatter = ISTFormatter(
+        "%(asctime)s IST | %(levelname)s | %(name)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+
+    if not root_logger.handlers:
+        handler = logging.StreamHandler()
+        handler.setFormatter(formatter)
+        root_logger.addHandler(handler)
+        return
+
+    for handler in root_logger.handlers:
+        handler.setFormatter(formatter)
+
+
+configure_logging()
 
 
 # Step 1: Generate AI DevOps Byte using AutoGen
