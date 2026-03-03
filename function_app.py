@@ -3,6 +3,7 @@ import azure.functions as func
 import datetime
 import json
 import logging
+import random
 import requests
 from collections import deque
 from autogen import AssistantAgent
@@ -55,9 +56,26 @@ configure_logging()
 # Step 1: Generate AI DevOps Byte using AutoGen
 def generate_ai_byte():
     previous_context = "\n\n".join(conversation_memory)
+    topics = [
+        "AI + DevOps industry updates",
+        "Agentic AI",
+        "Linux OS versions",
+        "Kubernetes",
+        "Docker",
+        "Security vulnerabilities",
+        "Celery",
+        "Databases",
+        "Programming languages",
+    ]
+    selected_topics = random.sample(topics, k=random.randint(2, 4))
+    selected_topics_text = "\n".join([f"• {topic}" for topic in selected_topics])
+
     enhanced_prompt = f"""
 Previous responses:
 {previous_context}
+
+Selected domains for this run:
+{selected_topics_text}
 
 Generate a completely new technical briefing.
 Avoid repeating previous themes or explanations.
@@ -76,24 +94,8 @@ Ensure uniqueness in domains, commands, and code snippets.
     prompt = f"""
 You are a DevOps + AI Tech Intelligence Agent.
 
-Each run, randomly select 2–4 topics from:
-
-• AI + DevOps industry updates
-• AI Ethics and Governance
-• Agentic AI
-• AIOps
-• Cloud ecosystem
-• Linux OS versions (RHEL, Ubuntu, Debian)
-• Kubernetes
-• Docker
-• Databases (MongoDB, PostgreSQL, Percona)
-• Celery
-• Angular / React
-• Security vulnerabilities & remediation
-• OS hardening
-• behave / pytest / UI testing
-• Programming languages (Go, Rust, Python)
-• Important Python library updates
+Each run, use only the selected domains provided below:
+{selected_topics_text}
 
 Use realistic current-year technical facts.
 
