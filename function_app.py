@@ -133,7 +133,7 @@ def _post_whatsapp_message(message_text):
     
     if response.status_code != 200:
         logging.error("WhatsApp API Error Detected")
-        logging.error("Error Details:", response.text)
+        logging.error(f"Error Details:", {response.text})
     return response
 
 
@@ -157,20 +157,20 @@ def send_whatsapp_long(message_text):
     
 
 
-@app.timer_trigger(schedule="*/30 * * * * *", arg_name="myTimer")
+@app.timer_trigger(schedule="* 09 10-20 * * *", arg_name="myTimer")
 def hourly_intel_bot(myTimer: func.TimerRequest) -> None:
 
     try:
       
        logging.info("Generating AI DevOps Byte...")
        message = generate_ai_byte()
-       logging.info("Generated Message:\n", message)
+       logging.info(f"Generated Message:\n", {message})
        logging.info("----------------------------")
        logging.info(message)
        logging.info("----------------------------")
-       logging.info("Message length:", len(message))
+       logging.info(f"Message length:", len(message))
        send_whatsapp_long(message)
-       logging.info("Generated Message:\n", message)
+       logging.info(f"Generated Message:\n", {message})
     
     except Exception as e:
        logging.error(f"ERROR: {str(e)}")
