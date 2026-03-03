@@ -189,7 +189,7 @@ def send_whatsapp_long(message_text):
     
 
 
-@app.timer_trigger(schedule="0 30 4-14 * * *", arg_name="myTimer")
+@app.timer_trigger(schedule="0 09,30 4-14 * * *", arg_name="myTimer")
 def hourly_intel_bot(myTimer: func.TimerRequest) -> None:
 
     try:
