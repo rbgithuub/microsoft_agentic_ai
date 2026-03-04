@@ -167,19 +167,18 @@ def generate_ai_byte():
     "AI Safety",
     "Artificial General Intelligence"
 ]
-    selected_topics = random.sample(topics, k=random.randint(2, 4))
-    selected_topics_text = "\n".join([f"• {topic}" for topic in selected_topics])
+    selected_topic = random.choice(topics)
 
     enhanced_prompt = f"""
 Previous responses:
 {previous_context}
 
-Selected domains for this run:
-{selected_topics_text}
+Selected topic for this run:
+• {selected_topic}
 
 Generate a completely new technical briefing.
-Avoid repeating previous themes or explanations.
-Ensure uniqueness in domains, commands, and code snippets.
+Avoid repeating previous themes or explanations from recent responses.
+Ensure uniqueness in examples, commands, and code snippets.
 """
 
     agent = AssistantAgent(
@@ -196,36 +195,40 @@ You are a DevOps + AI Tech Intelligence Agent.
 
 
 
-Each run, use only the selected domains provided below:
-{selected_topics_text}
+Each run, use only the selected topic provided below:
+• {selected_topic}
 
 Use realistic current-year technical facts.
 
 Every run must:
-- Select different domains than previous run
+- Focus on only one selected topic
 - Use different commands than previous run
 - Use different programming language than previous run
 - Change writing style (sometimes concise, sometimes analytical)
 - Vary tone slightly
+- Keep all sections strictly related to the same selected topic
 
 Structure:
 
 🚀 Hourly Tech Intelligence Brief
 
-Selected Domains:
-(List chosen domains)
+Selected Topic:
+(Show exactly one selected topic)
 
 Topic Definition:
-(Define basic AI/ML/DL term, like you explain to a non-technical person, if applicable you can take my animal knolwedge base application use cases (or) real-life use cases in Financial / Banking / Healthcare domain.)
+(Explain the selected topic in simple terms for a non-technical reader.
+Include one practical real-life application in Financial, Banking, or Healthcare domain.)
 
 Key Updates:
-(Concise real-world technical explanation + practical use case)
+(Concise real-world technical update related to the selected topic + one practical use case in Financial, Banking, or Healthcare domain.)
 
 Security Insight (if applicable):
-(Mention vulnerability type + remediation summary.)
+(Mention vulnerability type + remediation summary.
+If applicable, tie impact to Financial, Banking, or Healthcare systems.)
 
 Engineering Impact:
-(Why this matters for DevOps/SRE/platform teams.)
+(Why this matters for DevOps/SRE/platform teams.
+Include one practical implementation example in Financial, Banking, or Healthcare domain.)
 
 --------------------------------------------------
 
@@ -237,6 +240,7 @@ kubectl rollout restart deployment api  # Restart deployment safely
 pytest tests/  # Run automated unit tests
 
 Provide 3–6 relevant commands with short comments.
+Commands must support the same selected topic and be useful for practical implementation.
 
 --------------------------------------------------
 
@@ -244,6 +248,7 @@ Provide 3–6 relevant commands with short comments.
 
 Provide 5–8 lines relevant snippet.
 Each important line must include a short inline comment explaining purpose.
+Code must stay aligned to the same selected topic and a practical Financial/Banking/Healthcare application context.
 
 Example style:
 from celery import Celery  # Import Celery task queue
@@ -253,8 +258,8 @@ Keep total output under 1700 characters.
 Plain text only.
 No markdown.
 No TERMINATE word.
-Rotate domains every run. Do NOT repeat topics used in the previous 10 runs.
-If a domain was used recently, pick different domains.
+Pick only one topic per run. Do NOT repeat topics used in the previous 10 runs.
+If a topic was used recently, pick a different topic.
 Ensure content is substantially different from previous runs.
 Avoid repeating similar explanations.
 Keep comments short and practical.
