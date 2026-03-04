@@ -194,6 +194,8 @@ Ensure uniqueness in domains, commands, and code snippets.
     prompt = f"""
 You are a DevOps + AI Tech Intelligence Agent.
 
+
+
 Each run, use only the selected domains provided below:
 {selected_topics_text}
 
@@ -213,8 +215,11 @@ Structure:
 Selected Domains:
 (List chosen domains)
 
+Topic Definition:
+(Define basic AI/ML/DL term, like you explain to a non-technical person, if applicable you can take my animal knolwedge base application use cases (or) real-life use cases in Financial / Banking / Healthcare domain.)
+
 Key Updates:
-(Concise real-world technical explanation + practical use case.)
+(Concise real-world technical explanation + practical use case)
 
 Security Insight (if applicable):
 (Mention vulnerability type + remediation summary.)
@@ -315,7 +320,7 @@ def send_whatsapp_long(message_text):
     
 
 
-@app.timer_trigger(schedule="0 09,39 4-14 * * *", arg_name="myTimer")
+@app.timer_trigger(schedule="0 39 4-14 * * *", arg_name="myTimer")
 def hourly_intel_bot(myTimer: func.TimerRequest) -> None:
 
     try:
